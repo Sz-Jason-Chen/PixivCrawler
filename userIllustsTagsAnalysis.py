@@ -1,0 +1,65 @@
+import crawler
+import csv
+import json
+from config import PATH
+
+
+def get_user_illusts(uid):
+    raw_text = crawler.user_profile_text(uid=uid)
+    parsed_text = json.loads(raw_text)
+    illusts = parsed_text["body"]["illusts"]
+
+    pids = []
+    for key in illusts:
+        pids.append(key)
+    return pids
+
+
+def get_user_name(uid):
+    pid = get_user_illusts(uid=uid)[0]
+    raw_text = crawler.illusts_text(pid=pid)
+    parsed_text = json.loads(raw_text)
+    return parsed_text["body"][pid]["userName"]
+
+
+def illusts_tags_count(pids, limit=0):
+    tags_count = {}
+    illusts_count = 0
+    for pid in pids:
+        raw_text = crawler.illusts_text(pid=pid)
+        parsed_text = json.loads(raw_text)
+        tags = parsed_text["body"][pid]["tags"]
+        for tag in tags:
+            if tag in tags_count:
+                tags_count[tag] += 1
+            else:
+                tags_count[tag] = 1
+
+        illusts_count += 1
+        print(illusts_count)
+        if illusts_count == limit:
+            break
+    return tags_count
+
+
+def csv_output(tags_count):
+    col_names = ["tag", "count"]
+    row_list = [col_names]
+    for item in tags_count.items():
+        row_list.append(list(item))
+    print(row_list)
+
+    with open(PATH + "tags_count.csv", "w", newline='', encoding="utf-8") as file:
+        writer = csv.writer(file)
+        writer.writerows(row_list)
+
+
+def main(uid):
+    user_illusts = get_user_illusts(uid=uid)
+    tags_count = illusts_tags_count(pids=user_illusts, limit=0)
+    csv_output(tags_count)
+
+
+if __name__ == "__main__":
+    main(3426698)
+    print(get_user_name(3426698))
