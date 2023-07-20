@@ -6,27 +6,40 @@ from collections import Counter
 from config import *
 
 
-class Line:
-    def __init__(self, line):
-        self.line = line
+class Text:
+    def __init__(self, string):
+        """
+        This class receive a text String and transform it into dict format.
+        Detailed data can be directly fetched by "get" functions.
+
+        :param string: Illust's text, in String format
+        """
+        if string[-1] == "\n":
+            self.text = eval(string[:-1])
+        else:
+            self.text = eval(string)
 
     def get_create_date(self):
-        return datetime.datetime.fromisoformat(eval(self.line[:-1])["createDate"])
+        return datetime.datetime.fromisoformat(self.text["createDate"])
 
     def get_id(self):
-        return eval(self.line[:-1])["id"]
+        return self.text["id"]
 
     def get_tags(self):
-        return eval(self.line[:-1])["tags"]
+        return self.text["tags"]
 
     def get_title(self):
-        return eval(self.line[:-1])["title"]
+        return self.text["title"]
 
     def get_user_id(self):
-        return eval(self.line[:-1])["userId"]
+        return self.text["userId"]
 
 
 def total():
+    """
+    Count all tags in given range of files.
+    :return:
+    """
     counter = Counter()
     count = 0
     for i in range(1, 2):
@@ -39,7 +52,7 @@ def total():
         with open(PATH + file_name, "r", encoding="UTF-8") as f:
             for line in f.readlines():
                 count += 1
-                line_object = Line(line=line)
+                line_object = Text(string=line)
                 print(count, end=" / ")
                 print(line_object.get_id())
                 tags = line_object.get_tags()
@@ -56,6 +69,13 @@ def total():
 
 
 def daily(minimum=1, maximum=10):
+    """
+    Count daily tags sum in given range.
+
+    :param minimum: min file No.
+    :param maximum: max file No.
+    :return:
+    """
     counter = Counter()
     count = 0
     last_date = datetime.datetime(2007, 9, 9)
@@ -71,24 +91,30 @@ def daily(minimum=1, maximum=10):
         with open(PATH + file_name, "r", encoding="UTF-8") as f:
             for line in f.readlines():
                 count += 1
-                line_object = Line(line=line)
-                current_date = line_object.get_create_date()
+                text = Text(string=line)
+                current_date = text.get_create_date()
 
+                # If previous day counting finished
                 if current_date.day != last_date.day:
                     print(last_date)
                     print(counter.most_common(20))
+
+                    # formatting
                     col_names = [last_date.date()]
                     row_names = []
                     data = []
                     for tag, count in counter.most_common(20):
                         row_names.append(tag)
                         data.append(count)
+
+                    # append to global counter dataframe
                     df = df.add(pd.DataFrame(data, index=row_names, columns=col_names), fill_value=0)
                     print(df)
 
+                    # update current date
                     last_date = current_date
 
-                tags = line_object.get_tags()
+                tags = text.get_tags()
                 counter.update(tags)
 
     df.fillna(0)

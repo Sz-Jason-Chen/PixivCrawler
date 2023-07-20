@@ -9,6 +9,11 @@ from multiprocessing.dummy import Pool
 
 class InfoStore:
     def __init__(self, file_name):
+        """
+        An auto crawling and saving procedure for text.
+
+        :param file_name: File to store text line by line.
+        """
         self.text_dict_list = []
         self.file_name = file_name
         self.last = 0

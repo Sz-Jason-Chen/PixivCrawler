@@ -3,6 +3,9 @@ import csv
 import json
 from config import PATH
 
+"""
+Fetch a user's all illusts' tags, count each tag's occurrence, save in a csv file.
+"""
 
 def get_user_illusts(uid):
     raw_text = crawler.user_profile_text(uid=uid)
@@ -61,5 +64,6 @@ def main(uid):
 
 
 if __name__ == "__main__":
-    main(3426698)
-    print(get_user_name(3426698))
+    uid = input("uid: ")
+    main(uid=uid)
+    print(get_user_name(uid=uid))

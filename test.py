@@ -1,11 +1,12 @@
 import numpy as np
 import pandas as pd
 import crawler
-import numpy
+import numpy as np
 import matplotlib.pyplot as plt
 from config import *
-
 from matplotlib.patches import Ellipse
+from sklearn.decomposition import PCA
+from sklearn.datasets import load_iris
 
 
 def plot_point_cov(points, nstd=3, ax=None, **kwargs):
@@ -68,11 +69,8 @@ def show_ellipse(X_pca, y, pca, flag=1):
     plt.show()
 
 
-import pandas as pd
-from sklearn.decomposition import PCA
-import numpy as np
-import matplotlib.pyplot as plt
-from sklearn.datasets import load_iris
+
+
 
 def main():
     labels = ['setosa', 'versicolor', 'virginica']

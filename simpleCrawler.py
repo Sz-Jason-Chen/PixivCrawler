@@ -4,6 +4,12 @@ import random
 import json
 from config import *
 
+"""
+Only for feasibility testing.
+No multithreading, might be very slow.
+"""
+
+
 
 def get_artwork_information(pid):
     """
@@ -61,7 +67,9 @@ def get_artwork_picture(pid):
 
 
 if __name__ == "__main__":
-    for pid in range(38, 39):
+    lower = int(input("Input pid lower bound:"))
+    upper = int(input("Input pid upper bound:"))
+    for pid in range(lower, upper + 1):
         pid = str(pid)
         print(pid)
         info = get_artwork_information(pid=pid)

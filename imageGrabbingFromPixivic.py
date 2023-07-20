@@ -1,3 +1,8 @@
+"""
+This is a separate independent crawler written by @Mist2404.
+It gets relevant images by searching for the keywords provided.
+"""
+
 import requests
 import json
 import time

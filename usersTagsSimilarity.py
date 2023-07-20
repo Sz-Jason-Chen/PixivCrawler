@@ -6,6 +6,7 @@ import userIllustsTagsAnalysis
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
 
+"""Using dimension reduction algorithms (PCA and t-SNE) to visualize similarity between artists."""
 
 def main(uids):
     user_names = []

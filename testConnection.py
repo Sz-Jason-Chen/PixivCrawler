@@ -2,6 +2,10 @@ import requests
 
 
 def web_test():
+    """
+
+    :return: Boolean value that represents whether the Pixiv website can be connected
+    """
     try:
         requests.get(url="https://www.pixiv.net/")
     except Exception:

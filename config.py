@@ -1,4 +1,9 @@
-COOKIE = "first_visit_datetime_pc=2023-03-29+21%3A13%3A21; p_ab_id=5; p_ab_id_2=4; p_ab_d_id=1796008450; yuid_b=QXlJNoA; __utmz=235335808.1680092016.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); _fbp=fb.1.1680092022445.1988819673; c_type=29; privacy_policy_notification=0; a_type=0; b_type=1; privacy_policy_agreement=5; _gcl_au=1.1.1279134379.1680093555; cto_bundle=Kc0_jl9MUHNMVVY4MiUyQkdsY0dIMjlXWWxQZDQwc0tENnYlMkJnZzIlMkJDV0ZYQmJ0Wm52SGJ3TSUyQkRraGpSRktuVDhNUzg5ZExRc3Rqd0oyM0gwVWYxOEF4dGo4UnhFNmhaNXNFUDBFT1pQWFprVnB2eFppWUklMkZLcVRVZW9sMmRyMTlLWHNZNlBJJTJGdWFVJTJGMEpzZldOR1B1NDNSSmVBZyUzRCUzRA; __utmv=235335808.|2=login%20ever=no=1^3=plan=normal=1^5=gender=male=1^6=user_id=51314271=1^9=p_ab_id=5=1^10=p_ab_id_2=4=1^11=lang=zh=1; adr_id=vvKctG2knygAx7Zwg2in2WV2RkMEYQNLZeTWDkduvQjiUtUe; PHPSESSID=51314271_q7oywQjLg9hvvQBULasycvey7ogWPxql; device_token=d0df35819a08dce82288eb5791537d87; _ga_MZ1NL4PHH0=GS1.1.1685499667.4.1.1685499690.0.0.0; QSI_S_ZN_5hF4My7Ad6VNNAi=v:0:0; _gid=GA1.2.1907560453.1685934012; _im_vid=01H24QZW0SMBKW17T063XK03ZM; __utma=235335808.158482758.1680092010.1685933993.1685938448.14; tag_view_ranking=0xsDLqCEW6~qWFESUmfEs~LVSDGaCAdn~Lt-oEicbBr~QKeXYK2oSR~Je_lQPk0GY~LLyDB5xskQ~_EOd7bsGyl~J_YijUi2Xg~AVEc3LeUs5~nvF1pzp1dN~HY55MqmzzQ~-TeGk6mN86~OUF2gvwPef~JS8xw3QO3J~1teineLRXQ~-B0wgi3Odg~zyKU3Q5L4C~EZQqoW9r8g~QaiOjmwQnI~-StjcwdYwv~Yv2C9XifX_~Sa_gPneDOK~i8v6c0TVla~8gFm-X5GTV~8wBgnpzNjv~VAB5BXKOPk~azESOjmQSV~w4sebKbvp8~RTJMXD26Ak~YhqxtePwNx~n39RQWfHku~J9DAOECDjo~yS_WrRrWFi~zIv0cf5VVk~yTkpyMW416~WlelQm0jTC~lRxin4V3-v~CSGVFoeEIw~DADQycFGB0~7dpqkQl8TH~oDcj90OVdf~ti_E1boC1J~-98s6o2-Rp~gmtw28vspD~n94c_ezAjj~0c3mrf8bTA~LVY6y5twYu~QOlvfk_Wxj~sr5LDuk9t8~0RGtdYkK6L~2-q1CV6LVL~Xnht3Glq1r~mD0wyXydLb~y0vwJASbcx~PwDMGzD6xn~zBactRHhei~PvCsalAgmW~ouQb1xvzoB~a3zvshTj4U~_ybxDTuoAU~qEsMl4UVLQ~HF1ICoeuaA~yzHYrrR9mN~vOJFVciNcS~7d2rUjkHJU~HBYFbIUAS8~oIYu_6HbXy~dE3mj7oMnh~0jyux9PxkH~CrFcrMFJzz~sylWziJEvL~bq1HPY2wZ-~G-44hwuIPi~zsm1ECW5Wb~C9_ZtBtMWU~XvbxkheZvT~FDo7nPJEjf~tzIoUMzCb7~u3393yHTdA~5JPpsmyDQH~QL2G1t5h_V~hsRXzn9a37~4O_RxlWlcz~HfSAmSfRmw~U51WZv5L6G~Da5XDX7Crr~feKBmnsHab~Nj9Bt-JWdN~KvbbVL8PJP~oXC2zr_mWq~onRAX1vDy3~77JX84H7p1~nocBoIpSbh~HM1Q6i5XxA~zUV1dBrslN~QM0rfezNVP~kJju21WVCT~aC55Umcfh1~92nr_0LwHw; _ga=GA1.2.158482758.1680092010; _ga_75BBYNYN9J=GS1.1.1685938449.17.1.1685939228.0.0.0; __cf_bm=lRO0oE0OL2GRR5ZjIQLfKVatpO0arGUo2UPMMwfom1s-1685952905-0-AeV+o0FBj05mSkJfcNyNazfDYhLXaEh9LNGhm/4bUeDH1ZicZa87hIuEYThSEk3TFPaX3b94jlvlTm/v0Fos03fzUz1QvE8XUevfBz8MHMbl"
+# Global Settings for the project
+# COOKIE: For authenticate connection
+# PATH: Program output storage path
+# USER_AGENT_POOL: Crawler agent random pool
+
+COOKIE = ""
 PATH = "E:\\program\\git project\\PixivCrawler\\output\\"
 USER_AGENT_POOL = [
     # My own user agent
@@ -262,3 +267,9 @@ USER_AGENT_POOL = [
     'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/111.0',  # 2023.03
     'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/112.0',  # 2023.04
 ]
+
+
+def updateCOOKIE():
+    global COOKIE
+    if COOKIE == "":
+        COOKIE = input(COOKIE)
