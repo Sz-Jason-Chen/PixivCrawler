@@ -4,35 +4,7 @@ import pandas as pd
 import time
 from collections import Counter
 from config import *
-
-
-class Text:
-    def __init__(self, string):
-        """
-        This class receive a text String and transform it into dict format.
-        Detailed data can be directly fetched by "get" functions.
-
-        :param string: Illust's text, in String format
-        """
-        if string[-1] == "\n":
-            self.text = eval(string[:-1])
-        else:
-            self.text = eval(string)
-
-    def get_create_date(self):
-        return datetime.datetime.fromisoformat(self.text["createDate"])
-
-    def get_id(self):
-        return self.text["id"]
-
-    def get_tags(self):
-        return self.text["tags"]
-
-    def get_title(self):
-        return self.text["title"]
-
-    def get_user_id(self):
-        return self.text["userId"]
+from text import Text
 
 
 def total():
@@ -52,7 +24,7 @@ def total():
         with open(PATH + file_name, "r", encoding="UTF-8") as f:
             for line in f.readlines():
                 count += 1
-                line_object = Text(string=line)
+                line_object = Text(raw=line)
                 print(count, end=" / ")
                 print(line_object.get_id())
                 tags = line_object.get_tags()
@@ -91,7 +63,7 @@ def daily(minimum=1, maximum=10):
         with open(PATH + file_name, "r", encoding="UTF-8") as f:
             for line in f.readlines():
                 count += 1
-                text = Text(string=line)
+                text = Text(raw=line)
                 current_date = text.get_create_date()
 
                 # If previous day counting finished

@@ -5,6 +5,7 @@ import threading
 import time
 from config import *
 from multiprocessing.dummy import Pool
+from text import Text
 
 
 class InfoStore:
@@ -36,11 +37,19 @@ class InfoStore:
             with open(PATH + self.file_name, 'w') as f:
                 pass
 
-    def crawl(self, pid):
+    """def crawl(self, pid):
         print(pid)
         raw_text = crawler.illusts_text(pid=pid)
         # print(raw_text)
         parsed_text = json.loads(raw_text)
+        if len(parsed_text["body"]) != 0:
+            text_dict = parsed_text["body"][str(pid)]
+            self.text_dict_list.append(text_dict)
+            print(text_dict)"""
+
+    def crawl(self, pid):
+        print(pid)
+        text = Text(raw=crawler.illusts_text(pid=pid))
         if len(parsed_text["body"]) != 0:
             text_dict = parsed_text["body"][str(pid)]
             self.text_dict_list.append(text_dict)
@@ -116,7 +125,7 @@ if __name__ == "__main__":
     """infoStore = InfoStore(file_name="illusts_text_storage_001.txt")
     infoStore.main(maximum=1000000, minimum=0, pools=50, step=10000)"""
 
-    for i in range(110, 111):
+    for i in range(11, 112):
         maximum = i * 1000000
         minimum = (i - 1) * 1000000 + 1
         file_name = ("illusts_text_storage_%s.txt" % f'{i:0>3}')

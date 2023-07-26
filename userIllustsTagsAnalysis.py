@@ -7,6 +7,7 @@ from config import PATH
 Fetch a user's all illusts' tags, count each tag's occurrence, save in a csv file.
 """
 
+
 def get_user_illusts(uid):
     raw_text = crawler.user_profile_text(uid=uid)
     parsed_text = json.loads(raw_text)

@@ -10,6 +10,11 @@ No multithreading, might be very slow.
 """
 
 
+def check_artwork_exist(text=None, pid=None):
+    if pid:
+        text = json.loads(crawler.illusts_text(pid=pid))
+    return bool(len(text["body"]))
+
 
 def get_artwork_information(pid):
     """
@@ -22,10 +27,9 @@ def get_artwork_information(pid):
 
     """
 
-    raw_info = crawler.illusts_text(pid=pid)
-    parsed_info = json.loads(raw_info)
-    if len(parsed_info["body"]) != 0:
-        info = parsed_info["body"][pid]
+    text = json.loads(crawler.illusts_text(pid=pid))
+    if len(text["body"]) != 0:
+        info = text["body"][pid]
         print(info["title"])
     else:
         info = []
@@ -67,7 +71,7 @@ def get_artwork_picture(pid):
 
 
 if __name__ == "__main__":
-    lower = int(input("Input pid lower bound:"))
+    """lower = int(input("Input pid lower bound:"))
     upper = int(input("Input pid upper bound:"))
     for pid in range(lower, upper + 1):
         pid = str(pid)
@@ -75,4 +79,7 @@ if __name__ == "__main__":
         info = get_artwork_information(pid=pid)
         if len(info) != 0:
             get_artwork_picture(pid=pid)
-        time.sleep(random.uniform(0, 1))
+        time.sleep(random.uniform(0, 1))"""
+
+    isExist = check_artwork_exist(pid=10)
+    print(isExist)
