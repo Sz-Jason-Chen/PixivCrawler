@@ -6,14 +6,6 @@ from exceptions import *
 
 class Text:
     def __init__(self, raw):
-        """
-        This class receive a text String and transform it into dict format.
-        Detailed data can be directly fetched by "get" functions.
-
-        :param raw: Illust's text, in String format
-        """
-        # print(raw)
-
         if type(raw) == str:
             string = raw
             if raw[-1] == "\n":
@@ -22,20 +14,35 @@ class Text:
             text = json.loads(string)
         except:
             text = eval(string)
-
-        if "id" in text:
-            self.text = text
-            print("id")
         if "error" in text:
             if text["error"]:
                 raise PageReturnError(text["message"])
             else:
-                body = text["body"]
-                if len(body) == 0:
-                    raise ArtworkUnavailableError()
-                else:
-                    pid = list(body.keys())[0]
-                    self.text = body[pid]
+                self.body = text["body"]
+
+
+class IllustText(Text):
+    def __init__(self, raw):
+        """
+        This class receive a text String and transform it into dict format.
+        Detailed data can be directly fetched by "get" functions.
+
+        :param raw: Illust's text, in String format
+        """
+        if '"error"' in raw:
+            super().__init__(raw=raw)
+            if len(self.body) == 0:
+                raise ArtworkUnavailableError()
+            else:
+                pid = list(self.body.keys())[0]
+                self.text = self.body[pid]
+        else:
+            try:
+                self.text = json.loads(raw)
+            except:
+                self.text = eval(raw)
+
+
 
 
     def get_text(self):
@@ -57,7 +64,27 @@ class Text:
         return self.text["userId"]
 
 
+class IllustPageText(Text):
+    def __init__(self, raw):
+        super().__init__(raw=raw)
+
+    def get_body(self):
+        return self.body
+
+
+class UserProfileText(Text):
+    def __init__(self, raw):
+        super().__init__(raw=raw)
+
+    def get_illusts(self):
+        return list(self.body["illusts"].keys())
+
+
 if __name__ == "__main__":
-    raw = crawler.illusts_text(pid=0)
-    text = Text(raw=raw)
+    raw = crawler.illusts_text(pid=20)
+    text = IllustText(raw=raw)
     print(text.get_text())
+
+    raw = crawler.user_profile_text(uid=74555562)
+    text = UserProfileText(raw=raw)
+    print(text.get_illusts())

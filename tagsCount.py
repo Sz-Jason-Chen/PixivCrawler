@@ -4,7 +4,7 @@ import pandas as pd
 import time
 from collections import Counter
 from config import *
-from text import Text
+from text import IllustText
 
 
 def total():
@@ -24,7 +24,7 @@ def total():
         with open(PATH + file_name, "r", encoding="UTF-8") as f:
             for line in f.readlines():
                 count += 1
-                line_object = Text(raw=line)
+                line_object = IllustText(raw=line)
                 print(count, end=" / ")
                 print(line_object.get_id())
                 tags = line_object.get_tags()
@@ -63,7 +63,7 @@ def daily(minimum=1, maximum=10):
         with open(PATH + file_name, "r", encoding="UTF-8") as f:
             for line in f.readlines():
                 count += 1
-                text = Text(raw=line)
+                text = IllustText(raw=line)
                 current_date = text.get_create_date()
 
                 # If previous day counting finished

@@ -5,7 +5,7 @@ import threading
 import time
 from config import *
 from multiprocessing.dummy import Pool
-from text import Text
+from text import IllustText
 
 
 class InfoStore:
@@ -49,11 +49,17 @@ class InfoStore:
 
     def crawl(self, pid):
         print(pid)
-        text = Text(raw=crawler.illusts_text(pid=pid))
-        if len(parsed_text["body"]) != 0:
-            text_dict = parsed_text["body"][str(pid)]
+        try:
+            text = IllustText(raw=crawler.illusts_text(pid=pid))
+        except:
+            pass
+        else:
+            text_dict = text.get_text()
             self.text_dict_list.append(text_dict)
             print(text_dict)
+
+
+
 
     def save(self):
         print("sorting...")
