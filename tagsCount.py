@@ -17,11 +17,11 @@ def total():
     for i in range(1, 2):
         # check file exist
         file_name = ("illusts_text_storage_%s.txt" % f'{i:0>3}')
-        if not os.path.exists(PATH + file_name):
+        if not os.path.exists(OUTPUT_PATH + file_name):
             continue
 
         # count line by line
-        with open(PATH + file_name, "r", encoding="UTF-8") as f:
+        with open(OUTPUT_PATH + file_name, "r", encoding="UTF-8") as f:
             for line in f.readlines():
                 count += 1
                 line_object = IllustText(raw=line)
@@ -31,7 +31,7 @@ def total():
                 counter.update(tags)
 
     # save counting result
-    with open(PATH + "tags_count.txt", "w", encoding="UTF-8") as f:
+    with open(OUTPUT_PATH + "tags_count.txt", "w", encoding="UTF-8") as f:
         """top_10 = counter.most_common(10)
         for item in top_10:
             print(item[0], ":", item[1])"""
@@ -56,11 +56,11 @@ def daily(minimum=1, maximum=10):
     for i in range(minimum, maximum):
         # check file exist
         file_name = ("illusts_text_storage_%s.txt" % f'{i:0>3}')
-        if not os.path.exists(PATH + file_name):
+        if not os.path.exists(OUTPUT_PATH + file_name):
             continue
 
         # count line by line
-        with open(PATH + file_name, "r", encoding="UTF-8") as f:
+        with open(OUTPUT_PATH + file_name, "r", encoding="UTF-8") as f:
             for line in f.readlines():
                 count += 1
                 text = IllustText(raw=line)
@@ -90,7 +90,7 @@ def daily(minimum=1, maximum=10):
                 counter.update(tags)
 
     df.fillna(0)
-    df.to_csv(PATH + "tags_count_top_10.csv")
+    df.to_csv(OUTPUT_PATH + "tags_count_top_10.csv")
 
 
 def main():

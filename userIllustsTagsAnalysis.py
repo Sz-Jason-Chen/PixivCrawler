@@ -1,7 +1,7 @@
 import crawler
 import csv
 import json
-from config import PATH
+from config import OUTPUT_PATH
 from text import *
 
 """
@@ -48,7 +48,7 @@ def csv_output(tags_count):
         row_list.append(list(item))
     print(row_list)
 
-    with open(PATH + "tags_count.csv", "w", newline='', encoding="utf-8") as file:
+    with open(OUTPUT_PATH + "tags_count.csv", "w", newline='', encoding="utf-8") as file:
         writer = csv.writer(file)
         writer.writerows(row_list)
 

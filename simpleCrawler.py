@@ -35,7 +35,7 @@ def get_artwork_information(pid):
         info = []
     print(info)
     if len(info) != 0:
-        file_name = PATH + pid + ".txt"
+        file_name = OUTPUT_PATH + pid + ".txt"
         file = open(file_name, "w", encoding="UTF-8")
         for attr in info:
             line = attr + ": " + str(info[attr]) + "\n"
@@ -62,12 +62,15 @@ def get_artwork_picture(pid):
     for url in urls:
         print(url)
         pic = crawler.img_original_content(url)
-        file_name = PATH + pid + "_p" + str(p) + ".png"
+        file_name = OUTPUT_PATH + pid + "_p" + str(p) + ".png"
         file = open(file_name, "wb")
         file.write(pic)
         file.close()
 
         p = p + 1
+
+def main():
+    pass
 
 
 if __name__ == "__main__":

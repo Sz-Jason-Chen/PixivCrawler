@@ -1,6 +1,6 @@
 /output/*
 /backup
+/web/static/*
 /cookie.txt
 /note.txt
 /time.csv
-/main.py

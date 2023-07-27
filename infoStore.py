@@ -21,8 +21,8 @@ class InfoStore:
 
         # check file existence
         # if yes then read last line to get last pid
-        if os.path.exists(PATH + self.file_name):
-            with open(PATH + self.file_name, 'r', encoding="UTF-8") as file:
+        if os.path.exists(OUTPUT_PATH + self.file_name):
+            with open(OUTPUT_PATH + self.file_name, 'r', encoding="UTF-8") as file:
                 last_line = None
                 current_line = None
                 for line in file:
@@ -34,7 +34,7 @@ class InfoStore:
                 self.last = int(eval(last_line)["id"])
         # if not then create
         else:
-            with open(PATH + self.file_name, 'w') as f:
+            with open(OUTPUT_PATH + self.file_name, 'w') as f:
                 pass
 
     """def crawl(self, pid):
@@ -67,7 +67,7 @@ class InfoStore:
         print("sorted")
 
         count = 0
-        with open(PATH + self.file_name, "a+", encoding="UTF-8") as file:
+        with open(OUTPUT_PATH + self.file_name, "a+", encoding="UTF-8") as file:
             for text in sorted_list:
                 file.write(str(text) + "\n")
                 count += 1
@@ -123,7 +123,7 @@ class InfoStore:
             self.text_dict_list = []
             end = time.time()
             print(times)
-            with open(PATH + "time.txt", "a+", encoding="UTF-8") as file:
+            with open(OUTPUT_PATH + "time.txt", "a+", encoding="UTF-8") as file:
                 file.write("%s, %s, %s\n" % (str(pools), str(step), str(end - start)))
 
 
