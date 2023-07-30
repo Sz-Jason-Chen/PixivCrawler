@@ -3,17 +3,12 @@ import time
 import random
 import json
 from config import *
+from text import *
 
 """
 Only for feasibility testing.
 No multithreading, might be very slow.
 """
-
-
-def check_artwork_exist(text=None, pid=None):
-    if pid:
-        text = json.loads(crawler.illusts_text(pid=pid))
-    return bool(len(text["body"]))
 
 
 def get_artwork_information(pid):
@@ -26,23 +21,21 @@ def get_artwork_information(pid):
     :return: A list containing detailed information of the artwork.
 
     """
-
-    text = json.loads(crawler.illusts_text(pid=pid))
-    if len(text["body"]) != 0:
-        info = text["body"][pid]
-        print(info["title"])
+    pid = str(pid)
+    try:
+        text = IllustText(raw=crawler.illusts_text(pid=pid))
+    except ArtworkUnavailableError:
+        pass
     else:
-        info = []
-    print(info)
-    if len(info) != 0:
+        print(text.get_title())
+        info = text.get_text()
         file_name = OUTPUT_PATH + pid + ".txt"
         file = open(file_name, "w", encoding="UTF-8")
         for attr in info:
             line = attr + ": " + str(info[attr]) + "\n"
             file.write(line)
         file.close()
-
-    return info
+        return info
 
 
 def get_artwork_picture(pid):
@@ -52,11 +45,7 @@ def get_artwork_picture(pid):
     :param pid: Pixiv artwork ID
     :return:
     """
-    raw_info = crawler.illust_pages_text(pid=pid)
-    parsed_info = json.loads(raw_info)
-    urls = []
-    for page in parsed_info["body"]:
-        urls.append(page["urls"]["original"])
+    urls = IllustPageText(raw=crawler.illust_pages_text(pid=pid)).get_original()
 
     p = 0
     for url in urls:
@@ -68,6 +57,7 @@ def get_artwork_picture(pid):
         file.close()
 
         p = p + 1
+
 
 def main():
     pass
@@ -84,5 +74,7 @@ if __name__ == "__main__":
             get_artwork_picture(pid=pid)
         time.sleep(random.uniform(0, 1))"""
 
-    isExist = check_artwork_exist(pid=10)
-    print(isExist)
+    pid = "20"
+    info = get_artwork_information(pid=pid)
+    if len(info) != 0:
+        get_artwork_picture(pid=pid)

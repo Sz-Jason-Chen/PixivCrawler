@@ -20,7 +20,7 @@ def illusts_text(pid):
         "user-agent": random.choice(USER_AGENT_POOL),
         "cookie": COOKIE}
     url = "https://www.pixiv.net/ajax/user/51314271/illusts?ids[]=" + str(pid)
-    html = requests.get(url=url, headers=headers)
+    html = requests.get(url=url, headers=headers, timeout=5)
     text = html.text
     html.close()
     return text

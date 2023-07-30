@@ -42,9 +42,6 @@ class IllustText(Text):
             except:
                 self.text = eval(raw)
 
-
-
-
     def get_text(self):
         return self.text
 
@@ -63,13 +60,44 @@ class IllustText(Text):
     def get_user_id(self):
         return self.text["userId"]
 
+    def get_user_name(self):
+        return self.text["userName"]
+
 
 class IllustPageText(Text):
     def __init__(self, raw):
         super().__init__(raw=raw)
+        self.thumb_mini = []
+        self.small = []
+        self.regular = []
+        self.original = []
+        self.width = []
+        self.height = []
+        for p in self.body:
+            self.thumb_mini.append(p["urls"]["thumb_mini"])
+            self.small.append(p["urls"]["small"])
+            self.regular.append(p["urls"]["regular"])
+            self.original.append(p["urls"]["original"])
+            self.width.append(p["width"])
+            self.height.append(p["height"])
 
-    def get_body(self):
-        return self.body
+    def get_thumb_mini(self):
+        return self.thumb_mini
+
+    def get_small(self):
+        return self.small
+
+    def get_regular(self):
+        return self.regular
+
+    def get_original(self):
+        return self.original
+
+    def get_width(self):
+        return self.width
+
+    def get_height(self):
+        return self.height
 
 
 class UserProfileText(Text):

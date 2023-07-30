@@ -1,7 +1,7 @@
-import crawler
 import csv
-import json
+from collections import Counter
 from config import OUTPUT_PATH
+from multiprocessing.dummy import Pool
 from text import *
 
 """
@@ -16,29 +16,21 @@ def get_user_illusts(uid):
 
 def get_user_name(uid):
     pid = get_user_illusts(uid=uid)[0]
-    raw_text = crawler.illusts_text(pid=pid)
-    parsed_text = json.loads(raw_text)
-    return parsed_text["body"][pid]["userName"]
+    text = IllustText(raw=crawler.illusts_text(pid=pid))
+    return text.get_user_name()
 
 
-def illusts_tags_count(pids, limit=0):
-    tags_count = {}
-    illusts_count = 0
-    for pid in pids:
-        raw_text = crawler.illusts_text(pid=pid)
-        parsed_text = json.loads(raw_text)
-        tags = parsed_text["body"][pid]["tags"]
-        for tag in tags:
-            if tag in tags_count:
-                tags_count[tag] += 1
-            else:
-                tags_count[tag] = 1
+def illusts_tags_count(pids):
+    counter = Counter()
 
-        illusts_count += 1
-        print(illusts_count)
-        if illusts_count == limit:
-            break
-    return tags_count
+    def crawl(pid):
+        tags = IllustText(raw=crawler.illusts_text(pid=pid)).get_tags()
+        counter.update(tags)
+        print(pid)
+
+    pool = Pool(50)
+    pool.map(crawl, pids)
+    return dict(counter)
 
 
 def csv_output(tags_count):
@@ -53,13 +45,13 @@ def csv_output(tags_count):
         writer.writerows(row_list)
 
 
-def main(uid):
+def main():
+    uid = input("uid: ")
     user_illusts = get_user_illusts(uid=uid)
-    tags_count = illusts_tags_count(pids=user_illusts, limit=0)
+    tags_count = illusts_tags_count(pids=user_illusts)
     csv_output(tags_count)
+    print(get_user_name(uid=uid))
 
 
 if __name__ == "__main__":
-    uid = input("uid: ")
-    main(uid=uid)
-    print(get_user_name(uid=uid))
+    main()

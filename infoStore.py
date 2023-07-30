@@ -56,7 +56,7 @@ class InfoStore:
         else:
             text_dict = text.get_text()
             self.text_dict_list.append(text_dict)
-            print(text_dict)
+            # print(text_dict)
 
 
 
@@ -78,7 +78,7 @@ class InfoStore:
         times = []
         if minimum <= self.last:
             minimum = self.last + 1
-        pool = Pool(pools)
+        # pool = Pool(pools)
         p_pid = [pid for pid in range(minimum, maximum + 1)]
         print(p_pid)
 
@@ -131,7 +131,7 @@ if __name__ == "__main__":
     """infoStore = InfoStore(file_name="illusts_text_storage_001.txt")
     infoStore.main(maximum=1000000, minimum=0, pools=50, step=10000)"""
 
-    for i in range(11, 112):
+    for i in range(22, 112):
         maximum = i * 1000000
         minimum = (i - 1) * 1000000 + 1
         file_name = ("illusts_text_storage_%s.txt" % f'{i:0>3}')

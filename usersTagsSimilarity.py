@@ -5,8 +5,10 @@ import numpy
 import userIllustsTagsAnalysis
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
+from text import *
 
 """Using dimension reduction algorithms (PCA and t-SNE) to visualize similarity between artists."""
+
 
 def main(uids):
     user_names = []
@@ -28,9 +30,7 @@ def main(uids):
     pids_tags = {}
     count = 0
     for pid in pids:
-        raw_text = crawler.illusts_text(pid=pid)
-        parsed_text = json.loads(raw_text)
-        tags = parsed_text["body"][pid]["tags"]
+        tags = IllustText(raw=crawler.illusts_text(pid=pid)).get_tags()
         pids_tags[pid] = tags
 
         for tag in tags:
@@ -110,5 +110,5 @@ def main(uids):
 
 
 if __name__ == "__main__":
-    #main(uids=[3104565, 27350443, 212801, 341818, 1980643, 4462245])
+    # main(uids=[3104565, 27350443, 212801, 341818, 1980643, 4462245])
     main(uids=[3104565, 1980643, 4462245])
