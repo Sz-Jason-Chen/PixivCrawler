@@ -74,6 +74,29 @@ def img_original_content(url):
 
 
 @retry(wait_fixed=1000)
+def ugoira_meta_text(pid):
+    headers = {
+        "user-agent": random.choice(USER_AGENT_POOL),
+        "cookie": COOKIE}
+    url = "https://www.pixiv.net/ajax/illust/" + str(pid) + "/ugoira_meta"
+    html = requests.get(url=url, headers=headers)
+    text = html.text
+    html.close()
+    return text
+
+
+def ugoira_zip_content(url):
+    headers = {
+        "referer": "https://www.pixiv.net",
+        "user-agent": random.choice(USER_AGENT_POOL),
+        "cookie": COOKIE}
+    html = requests.get(url=url, headers=headers)
+    ugo = html.content
+    html.close()
+    return ugo
+
+
+@retry(wait_fixed=1000)
 def user_profile_text(uid):
     """
     Crawl the user's information, including the illusts' IDs.

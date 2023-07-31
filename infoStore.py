@@ -54,7 +54,7 @@ class InfoStore:
         except:
             pass
         else:
-            text_dict = text.get_text()
+            text_dict = text.get_info()
             self.text_dict_list.append(text_dict)
             # print(text_dict)
 

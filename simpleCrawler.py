@@ -1,35 +1,16 @@
 from fileAccess import *
 from text import *
 
-"""
-No multithreading, might be very slow.
-"""
 
+def main():
+    pid = str(input("PID: "))
 
-def get_artwork_information(pid):
-    """
-    Using pixiv artwork ID, search for corresponding artwork information.
-    The information is stored in a list and returned and saved as a txt file.
-
-    :param pid: Pixiv artwork ID
-    :return: Detailed information of the artwork, if ArtworkUnavailableError return None
-    """
-    pid = str(pid)
     text = IllustText(raw=crawler.illusts_text(pid=pid))
     print(text.get_title())
-    info = text.get_text()
+    info = text.get_info()
     file_name = pid + ".txt"
     FormattedInfoWrite(file_name=file_name, info=info)
-    return info
 
-
-def get_artwork_picture(pid):
-    """
-    Using pixiv artwork ID, search for corresponding artwork and save it in a png file.
-
-    :param pid: Pixiv artwork ID
-    :return:
-    """
     urls = IllustPageText(raw=crawler.illust_pages_text(pid=pid)).get_original()
     p = 0
     for url in urls:
@@ -39,21 +20,18 @@ def get_artwork_picture(pid):
         PicWrite(file_name=file_name, pic=pic)
         p = p + 1
 
+    if text.get_illust_type() == 2:
+        ugo_meta_text = UgoiraMetaText(raw=crawler.ugoira_meta_text(pid=pid))
+        ugo_src = ugo_meta_text.get_original_src()
+        ugo_fps = ugo_meta_text.get_delay()
+        ugo_zip = crawler.ugoira_zip_content(ugo_src)
 
-def main():
-    """lower = int(input("Input pid lower bound:"))
-        upper = int(input("Input pid upper bound:"))
-        for pid in range(lower, upper + 1):
-            pid = str(pid)
-            print(pid)
-            info = get_artwork_information(pid=pid)
-            if len(info) != 0:
-                get_artwork_picture(pid=pid)
-            time.sleep(random.uniform(0, 1))"""
+        ZipWriter(file_name=pid + ".zip", zip=ugo_zip)
 
-    pid = input("PID: ")
-    if get_artwork_information(pid=pid):
-        get_artwork_picture(pid=pid)
+        unzip_folder = os.getcwd() + "\\output\\" + "unzip_folder"
+        UnzipWriter(file_name=pid + ".zip", unzip_folder=unzip_folder)
+
+        Mp4Writer(frame_folder=unzip_folder, file_name=pid + ".mp4", fps=ugo_fps)
 
 
 if __name__ == "__main__":

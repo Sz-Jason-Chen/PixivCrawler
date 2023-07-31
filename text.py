@@ -35,33 +35,36 @@ class IllustText(Text):
                 raise ArtworkUnavailableError()
             else:
                 pid = list(self.body.keys())[0]
-                self.text = self.body[pid]
+                self.info = self.body[pid]
         else:
             try:
-                self.text = json.loads(raw)
+                self.info = json.loads(raw)
             except:
-                self.text = eval(raw)
+                self.info = eval(raw)
 
-    def get_text(self):
-        return self.text
+    def get_info(self):
+        return self.info
 
     def get_create_date(self):
-        return datetime.datetime.fromisoformat(self.text["createDate"])
+        return datetime.datetime.fromisoformat(self.info["createDate"])
 
     def get_id(self):
-        return self.text["id"]
+        return self.info["id"]
+
+    def get_illust_type(self):
+        return self.info["illustType"]
 
     def get_tags(self):
-        return self.text["tags"]
+        return self.info["tags"]
 
     def get_title(self):
-        return self.text["title"]
+        return self.info["title"]
 
     def get_user_id(self):
-        return self.text["userId"]
+        return self.info["userId"]
 
     def get_user_name(self):
-        return self.text["userName"]
+        return self.info["userName"]
 
 
 class IllustPageText(Text):
@@ -100,6 +103,17 @@ class IllustPageText(Text):
         return self.height
 
 
+class UgoiraMetaText(Text):
+    def __init__(self, raw):
+        super().__init__(raw=raw)
+
+    def get_original_src(self):
+        return self.body["originalSrc"]
+
+    def get_delay(self):
+        return self.body["frames"][0]["delay"]
+
+
 class UserProfileText(Text):
     def __init__(self, raw):
         super().__init__(raw=raw)
@@ -111,7 +125,7 @@ class UserProfileText(Text):
 if __name__ == "__main__":
     raw = crawler.illusts_text(pid=20)
     text = IllustText(raw=raw)
-    print(text.get_text())
+    print(text.get_info())
 
     raw = crawler.user_profile_text(uid=74555562)
     text = UserProfileText(raw=raw)

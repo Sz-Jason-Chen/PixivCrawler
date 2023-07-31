@@ -1,6 +1,4 @@
-import csv
 from collections import Counter
-from config import OUTPUT_PATH
 from fileAccess import *
 from multiprocessing.dummy import Pool
 from text import *

@@ -16,7 +16,7 @@ def result():
     if request.method == 'POST':
         result = request.form
         pid = result['input_1']
-        text = IllustText(raw=crawler.illusts_text(pid=pid)).get_text()
+        text = IllustText(raw=crawler.illusts_text(pid=pid)).get_info()
 
         body = IllustPageText(raw=crawler.illust_pages_text(pid=pid)).get_body()
         url = body[0]["urls"]["original"]
