@@ -8,7 +8,8 @@ def web_test():
     """
     try:
         requests.get(url="https://www.pixiv.net/")
-    except Exception:
+    except Exception as e:
+        print(e)
         return False
     else:
         return True

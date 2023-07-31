@@ -1,71 +1,41 @@
-import time
-
 import numpy as np
+import os
 import pandas as pd
+import time
 import crawler
 import numpy as np
 import matplotlib.pyplot as plt
 import random
 import requests
+import zipfile
 from config import *
+from fileAccess import *
 from matplotlib.patches import Ellipse
 from multiprocessing.dummy import Pool
 from sklearn.decomposition import PCA
 from sklearn.datasets import load_iris
 
-def userAgent():
-    for ua in USER_AGENT_POOL:
-        print(ua)
-        available = False
-        for i in range(10):
-            try:
-                headers = {
-                    "user-agent": ua,
-                    "cookie": COOKIE}
-                url = "https://www.pixiv.net/ajax/user/51314271/illusts?ids[]=" + "20"
-                html = requests.get(url=url, headers=headers)
-                text = html.text
-                html.close()
-                # print(ua)
-            except Exception as e:
-                print(e)
-            else:
-                available = True
-                break
-        print(str(available) )
-
-def repeat(pid):
-    t = 0
-    f = 0
-    while True:
-        try:
-            headers = {
-                "user-agent": 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36',
-                "cookie": COOKIE}
-            url = "https://www.pixiv.net/ajax/user/51314271/illusts?ids[]=" + pid
-            html = requests.get(url=url, headers=headers, timeout=10)
-            text = html.text
-            html.close()
-        except:
-            f += 1
-        else:
-            t += 1
-        finally:
-            print(t, f)
-            if t == 100:
-                break
 
 
 def main():
-    s = time.time()
-    pool = Pool(200)
-    empty = []
-    for i in range(200):
-        empty.append("20")
-    pool.map(repeat, empty)
-    e = time.time()
-    print(e-s)
+    url = "https://i.pximg.net/img-zip-ugoira/img/2022/11/18/03/26/34/102879473_ugoira600x600.zip"
+    headers = {
+        "referer": "https://www.pixiv.net",
+        "user-agent": random.choice(USER_AGENT_POOL),
+        "cookie": COOKIE}
+    html = requests.get(url=url, headers=headers)
+    ugo = html.content
+    html.close()
+
+    f = open(os.getcwd() + "\\output\\" + "ugo.zip", "wb")
+    f.write(ugo)
+    f.close()
+
+    with zipfile.ZipFile(os.getcwd() + "\\output\\" + "ugo.zip", 'r') as zip_ref:
+        zip_ref.extractall(os.getcwd() + "\\output\\" + 'unzip_folder')
 
 
 if __name__=="__main__":
     main()
+
+

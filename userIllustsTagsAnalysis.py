@@ -1,6 +1,7 @@
 import csv
 from collections import Counter
 from config import OUTPUT_PATH
+from fileAccess import *
 from multiprocessing.dummy import Pool
 from text import *
 
@@ -39,10 +40,7 @@ def csv_output(tags_count):
     for item in tags_count.items():
         row_list.append(list(item))
     print(row_list)
-
-    with open(OUTPUT_PATH + "tags_count.csv", "w", newline='', encoding="utf-8") as file:
-        writer = csv.writer(file)
-        writer.writerows(row_list)
+    CsvWrite("tags_count.csv", row_list)
 
 
 def main():

@@ -13,14 +13,13 @@ def get_artwork_information(pid):
 
     :param pid: Pixiv artwork ID
     :return: Detailed information of the artwork, if ArtworkUnavailableError return None
-
     """
     pid = str(pid)
     text = IllustText(raw=crawler.illusts_text(pid=pid))
     print(text.get_title())
     info = text.get_text()
     file_name = pid + ".txt"
-    FormattedInfoSave(file_name=file_name, info=info)
+    FormattedInfoWrite(file_name=file_name, info=info)
     return info
 
 
@@ -37,7 +36,7 @@ def get_artwork_picture(pid):
         print(url)
         pic = crawler.img_original_content(url)
         file_name = pid + "_p" + str(p) + ".png"
-        PicSave(file_name=file_name, pic=pic)
+        PicWrite(file_name=file_name, pic=pic)
         p = p + 1
 
 
@@ -59,4 +58,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
