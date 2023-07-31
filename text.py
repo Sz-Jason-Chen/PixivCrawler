@@ -1,4 +1,4 @@
-import crawler
+import connector
 import datetime
 import json
 from exceptions import *

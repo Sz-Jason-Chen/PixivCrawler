@@ -1,6 +1,7 @@
 from collections import Counter
 from fileAccess import *
 from multiprocessing.dummy import Pool
+from connector import Connector
 from text import *
 
 """
@@ -9,13 +10,13 @@ Fetch a user's all illusts' tags, count each tag's occurrence, save in a csv fil
 
 
 def get_user_illusts(uid):
-    text = UserProfileText(raw=crawler.user_profile_text(uid=uid))
+    text = UserProfileText(raw=Connector.user_profile_text(uid=uid))
     return text.get_illusts()
 
 
 def get_user_name(uid):
     pid = get_user_illusts(uid=uid)[0]
-    text = IllustText(raw=crawler.illusts_text(pid=pid))
+    text = IllustText(raw=Connector.illusts_text(pid=pid))
     return text.get_user_name()
 
 
@@ -23,7 +24,7 @@ def illusts_tags_count(pids):
     counter = Counter()
 
     def crawl(pid):
-        tags = IllustText(raw=crawler.illusts_text(pid=pid)).get_tags()
+        tags = IllustText(raw=Connector.illusts_text(pid=pid)).get_tags()
         counter.update(tags)
         print(pid)
 

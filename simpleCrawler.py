@@ -1,11 +1,13 @@
+from connector import Connector
 from fileAccess import *
 from text import *
+
 
 
 def main():
     pid = str(input("PID: "))
 
-    text = IllustText(raw=crawler.illusts_text(pid=pid))
+    text = IllustText(raw=Connector.illusts_text(pid=pid))
     print("Title: " + text.get_title())
 
     info = text.get_info()
@@ -13,21 +15,20 @@ def main():
     FormattedInfoWrite(file_name=file_name, info=info)
     print("Text saved")
 
-    urls = IllustPageText(raw=crawler.illust_pages_text(pid=pid)).get_original()
+    urls = IllustPageText(raw=Connector.illust_pages_text(pid=pid)).get_original()
     p = 0
     for url in urls:
-        pic = crawler.img_original_content(url)
+        pic = Connector.img_original_content(url)
         file_name = pid + "_p" + str(p) + ".png"
         PicWrite(file_name=file_name, pic=pic)
         p = p + 1
     print("Picture saved")
 
-
     if text.get_illust_type() == 2:
-        ugo_meta_text = UgoiraMetaText(raw=crawler.ugoira_meta_text(pid=pid))
+        ugo_meta_text = UgoiraMetaText(raw=Connector.ugoira_meta_text(pid=pid))
         ugo_src = ugo_meta_text.get_original_src()
         ugo_fps = ugo_meta_text.get_delay()
-        ugo_zip = crawler.ugoira_zip_content(ugo_src)
+        ugo_zip = Connector.ugoira_zip_content(ugo_src)
 
         ZipWriter(file_name=pid + ".zip", zip=ugo_zip)
 

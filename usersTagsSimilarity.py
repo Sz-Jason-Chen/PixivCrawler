@@ -1,4 +1,4 @@
-import crawler
+from connector import Connector
 import json
 import matplotlib.pyplot as plt
 import numpy
@@ -30,7 +30,7 @@ def main(uids):
     pids_tags = {}
     count = 0
     for pid in pids:
-        tags = IllustText(raw=crawler.illusts_text(pid=pid)).get_tags()
+        tags = IllustText(raw=Connector.illusts_text(pid=pid)).get_tags()
         pids_tags[pid] = tags
 
         for tag in tags:
