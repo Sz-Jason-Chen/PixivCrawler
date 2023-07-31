@@ -4,6 +4,7 @@ import pandas as pd
 import time
 from collections import Counter
 from config import *
+from fileAccess import *
 from text import IllustText
 
 
@@ -14,7 +15,7 @@ def total():
     """
     counter = Counter()
     count = 0
-    for i in range(1, 2):
+    for i in range(1, 30):
         # check file exist
         file_name = ("illusts_text_storage_%s.txt" % f'{i:0>3}')
         if not os.path.exists(OUTPUT_PATH + file_name):
@@ -30,14 +31,16 @@ def total():
                 tags = line_object.get_tags()
                 counter.update(tags)
 
-    # save counting result
-    with open(OUTPUT_PATH + "tags_count.txt", "w", encoding="UTF-8") as f:
-        """top_10 = counter.most_common(10)
-        for item in top_10:
-            print(item[0], ":", item[1])"""
+    sorted_counter = [[item, count] for item, count in counter.items()]
+    sorted_counter.sort(key=lambda item: item[1], reverse=True)
+    CsvWrite(file_name="tags_count.csv", rows=sorted_counter)
 
-        f.write(str(counter))
-        print(counter)
+    # save counting result
+    """with open(OUTPUT_PATH + "tags_count.txt", "w", encoding="UTF-8") as f:
+        top_10 = counter.most_common(10)
+        for item in top_10:
+            print(item[0], ":", item[1])
+        f.write(str(counter))"""
 
 
 def daily(minimum=1, maximum=10):
@@ -94,9 +97,10 @@ def daily(minimum=1, maximum=10):
 
 
 def main():
-    # total()
+
     start = time.time()
-    daily(minimum=100, maximum=110)
+    # daily(minimum=100, maximum=110)
+    total()
     end = time.time()
     time_consume = end - start
     print(time_consume)
