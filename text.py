@@ -48,6 +48,9 @@ class IllustText(Text):
     def get_create_date(self):
         return datetime.datetime.fromisoformat(self.info["createDate"])
 
+    def get_height(self):
+        return self.info["height"]
+
     def get_id(self):
         return self.info["id"]
 
@@ -65,6 +68,9 @@ class IllustText(Text):
 
     def get_user_name(self):
         return self.info["userName"]
+
+    def get_width(self):
+        return self.info["width"]
 
 
 class IllustPageText(Text):

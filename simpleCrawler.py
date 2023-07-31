@@ -6,19 +6,22 @@ def main():
     pid = str(input("PID: "))
 
     text = IllustText(raw=crawler.illusts_text(pid=pid))
-    print(text.get_title())
+    print("Title: " + text.get_title())
+
     info = text.get_info()
     file_name = pid + ".txt"
     FormattedInfoWrite(file_name=file_name, info=info)
+    print("Text saved")
 
     urls = IllustPageText(raw=crawler.illust_pages_text(pid=pid)).get_original()
     p = 0
     for url in urls:
-        print(url)
         pic = crawler.img_original_content(url)
         file_name = pid + "_p" + str(p) + ".png"
         PicWrite(file_name=file_name, pic=pic)
         p = p + 1
+    print("Picture saved")
+
 
     if text.get_illust_type() == 2:
         ugo_meta_text = UgoiraMetaText(raw=crawler.ugoira_meta_text(pid=pid))
@@ -31,8 +34,12 @@ def main():
         unzip_folder = os.getcwd() + "\\output\\" + "unzip_folder"
         UnzipWriter(file_name=pid + ".zip", unzip_folder=unzip_folder)
 
-        Mp4Writer(frame_folder=unzip_folder, file_name=pid + ".mp4", fps=ugo_fps)
-
+        Mp4Writer(frame_folder=unzip_folder,
+                  file_name=pid + ".mp4",
+                  fps=ugo_fps,
+                  width=text.get_width(),
+                  height=text.get_height())
+        print("Video saved")
 
 if __name__ == "__main__":
     main()
