@@ -1,5 +1,4 @@
 from connector import Connector
-import json
 import matplotlib.pyplot as plt
 import numpy
 import userIllustsTagsAnalysis

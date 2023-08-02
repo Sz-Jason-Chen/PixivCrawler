@@ -10,7 +10,7 @@ import random
 import requests
 import zipfile
 from config import *
-from fileAccess import *
+from fileManager import *
 from matplotlib.patches import Ellipse
 from multiprocessing.dummy import Pool
 from sklearn.decomposition import PCA

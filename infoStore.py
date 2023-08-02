@@ -7,6 +7,7 @@ from config import *
 from connector import Connector
 from multiprocessing.dummy import Pool
 from text import IllustText
+from fileManager import TXTAppend
 
 
 
@@ -60,20 +61,9 @@ class InfoStore:
             self.text_dict_list.append(text_dict)
             # print(text_dict)
 
-
-
-
     def save(self):
-        print("sorting...")
         sorted_list = sorted(self.text_dict_list, key=lambda x: int(x['id']))
-        print("sorted")
-
-        count = 0
-        with open(OUTPUT_PATH + self.file_name, "a+", encoding="UTF-8") as file:
-            for text in sorted_list:
-                file.write(str(text) + "\n")
-                count += 1
-            print(count)
+        TXTAppend(file_name=self.file_name, line_list=sorted_list)
 
     def main(self, maximum, minimum=1, pools=100, step=50000):
         print(self.last)
@@ -125,8 +115,8 @@ class InfoStore:
             self.text_dict_list = []
             end = time.time()
             print(times)
-            with open(OUTPUT_PATH + "time.txt", "a+", encoding="UTF-8") as file:
-                file.write("%s, %s, %s\n" % (str(pools), str(step), str(end - start)))
+            TXTAppend(file_name="time.txt", line_list=["%s, %s, %s" % (str(pools), str(step), str(end - start))])
+
 
 
 if __name__ == "__main__":
@@ -139,4 +129,4 @@ if __name__ == "__main__":
         file_name = ("illusts_text_storage_%s.txt" % f'{i:0>3}')
         print(file_name)
         infoStore = InfoStore(file_name=file_name)
-        infoStore.main(maximum=maximum, minimum=minimum, pools=500, step=50000)
+        infoStore.main(maximum=maximum, minimum=minimum, pools=1000, step=100000)

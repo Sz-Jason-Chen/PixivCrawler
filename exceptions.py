@@ -16,5 +16,5 @@ class PageReturnError(Exception):
         self.message = message
 
     def __str__(self):
-        return "Error message: " + self.message
+        return f"Error message: {self.message}"
 

@@ -1,5 +1,5 @@
 from collections import Counter
-from fileAccess import *
+from fileManager import *
 from multiprocessing.dummy import Pool
 from connector import Connector
 from text import *

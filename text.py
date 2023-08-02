@@ -1,4 +1,3 @@
-import connector
 import datetime
 import json
 from exceptions import *
@@ -126,13 +125,3 @@ class UserProfileText(Text):
 
     def get_illusts(self):
         return list(self.body["illusts"].keys())
-
-
-if __name__ == "__main__":
-    raw = crawler.illusts_text(pid=20)
-    text = IllustText(raw=raw)
-    print(text.get_info())
-
-    raw = crawler.user_profile_text(uid=74555562)
-    text = UserProfileText(raw=raw)
-    print(text.get_illusts())

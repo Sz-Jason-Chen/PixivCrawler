@@ -1,7 +1,6 @@
 from connector import Connector
-from fileAccess import *
+from fileManager import *
 from text import *
-
 
 
 def main():
@@ -12,7 +11,7 @@ def main():
 
     info = text.get_info()
     file_name = pid + ".txt"
-    FormattedInfoWrite(file_name=file_name, info=info)
+    TxtManager(file_name=file_name).dict_write(info=info)
     print("Text saved")
 
     urls = IllustPageText(raw=Connector.illust_pages_text(pid=pid)).get_original()
@@ -41,6 +40,7 @@ def main():
                   width=text.get_width(),
                   height=text.get_height())
         print("Video saved")
+
 
 if __name__ == "__main__":
     main()
