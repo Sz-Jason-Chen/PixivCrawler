@@ -285,7 +285,7 @@ class Connector:
         headers = {
             "user-agent": random.choice(Connector.USER_AGENT_POOL),
             "cookie": Connector.COOKIE}
-        url = "https://www.pixiv.net/ajax/user/51314271/illusts?ids[]=" + str(pid)
+        url = f"https://www.pixiv.net/ajax/user/51314271/illusts?ids[]={str(pid)}"
         html = requests.get(url=url, headers=headers, timeout=5)
         text = html.text
         html.close()
@@ -308,7 +308,7 @@ class Connector:
         headers = {
             "user-agent": random.choice(Connector.USER_AGENT_POOL),
             "cookie": Connector.COOKIE}
-        url = "https://www.pixiv.net/ajax/illust/" + str(pid) + "/pages"
+        url = f"https://www.pixiv.net/ajax/illust/{str(pid)}/pages"
         html = requests.get(url=url, headers=headers)
         text = html.text
         html.close()
@@ -344,7 +344,7 @@ class Connector:
         headers = {
             "user-agent": random.choice(Connector.USER_AGENT_POOL),
             "cookie": Connector.COOKIE}
-        url = "https://www.pixiv.net/ajax/illust/" + str(pid) + "/ugoira_meta"
+        url = f"https://www.pixiv.net/ajax/illust/{str(pid)}/ugoira_meta"
         html = requests.get(url=url, headers=headers)
         text = html.text
         html.close()
@@ -361,6 +361,19 @@ class Connector:
         html.close()
         return ugo
 
+
+    @staticmethod
+    def user_full(uid):
+        headers = {
+            "user-agent": random.choice(Connector.USER_AGENT_POOL),
+            "cookie": Connector.COOKIE}
+        url = f"https://www.pixiv.net/ajax/user/{str(uid)}?full=1"
+        html = requests.get(url=url, headers=headers)
+        text = html.text
+        html.close()
+        return text
+
+
     @staticmethod
     @retry(wait_fixed=1000)
     def user_profile_text(uid):
@@ -373,7 +386,7 @@ class Connector:
         headers = {
             "user-agent": random.choice(Connector.USER_AGENT_POOL),
             "cookie": Connector.COOKIE}
-        url = "https://www.pixiv.net/ajax/user/" + str(uid) + "/profile/all"
+        url = f"https://www.pixiv.net/ajax/user/{str(uid)}/profile/all"
         html = requests.get(url=url, headers=headers)
         text = html.text
         html.close()

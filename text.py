@@ -44,23 +44,23 @@ class IllustText(Text):
     def get_info(self):
         return self.info
 
-    def get_create_date(self):
-        return datetime.datetime.fromisoformat(self.info["createDate"])
-
-    def get_height(self):
-        return self.info["height"]
-
     def get_id(self):
         return self.info["id"]
+
+    def get_title(self):
+        return self.info["title"]
 
     def get_illust_type(self):
         return self.info["illustType"]
 
+    def get_x_restrict(self):
+        return self.info["xRestrict"]
+
+    def get_restrict(self):
+        return self.info["restrict"]
+
     def get_tags(self):
         return self.info["tags"]
-
-    def get_title(self):
-        return self.info["title"]
 
     def get_user_id(self):
         return self.info["userId"]
@@ -70,6 +70,20 @@ class IllustText(Text):
 
     def get_width(self):
         return self.info["width"]
+
+    def get_height(self):
+        return self.info["height"]
+
+    def get_create_date(self):
+        return datetime.datetime.fromisoformat(self.info["createDate"])
+
+    def get_ai_type(self):
+        if self.info["aiType"] == 1:
+            return False
+        elif self.info["aiType"] == 2:
+            return True
+        else:
+            raise Exception("AI type error")
 
 
 class IllustPageText(Text):

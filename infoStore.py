@@ -123,10 +123,10 @@ if __name__ == "__main__":
     """infoStore = InfoStore(file_name="illusts_text_storage_001.txt")
     infoStore.main(maximum=1000000, minimum=0, pools=50, step=10000)"""
 
-    for i in range(28, 112):
+    for i in range(48, 112):
         maximum = i * 1000000
         minimum = (i - 1) * 1000000 + 1
         file_name = ("illusts_text_storage_%s.txt" % f'{i:0>3}')
         print(file_name)
         infoStore = InfoStore(file_name=file_name)
-        infoStore.main(maximum=maximum, minimum=minimum, pools=1000, step=100000)
+        infoStore.main(maximum=maximum, minimum=minimum, pools=500, step=50000)
