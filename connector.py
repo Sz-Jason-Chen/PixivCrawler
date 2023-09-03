@@ -315,6 +315,17 @@ class Connector:
         return text
 
     @staticmethod
+    def illusts_comments_text(pid):
+        headers = {
+            "user-agent": random.choice(Connector.USER_AGENT_POOL),
+            "cookie": Connector.COOKIE}
+        url = f"https://www.pixiv.net/ajax/illusts/comments/roots?illust_id={str(pid)}"
+        html = requests.get(url=url, headers=headers)
+        text = html.text
+        html.close()
+        return text
+
+    @staticmethod
     @retry(wait_fixed=1000)
     def img_original_content(url):
         """
@@ -361,9 +372,8 @@ class Connector:
         html.close()
         return ugo
 
-
     @staticmethod
-    def user_full(uid):
+    def user_full_text(uid):
         headers = {
             "user-agent": random.choice(Connector.USER_AGENT_POOL),
             "cookie": Connector.COOKIE}
@@ -372,7 +382,6 @@ class Connector:
         text = html.text
         html.close()
         return text
-
 
     @staticmethod
     @retry(wait_fixed=1000)

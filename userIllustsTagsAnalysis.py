@@ -39,7 +39,7 @@ def csv_output(tags_count):
     for item in tags_count.items():
         row_list.append(list(item))
     print(row_list)
-    CsvWrite("tags_count.csv", row_list)
+    CsvManager("tags_count.csv").row_list_write(rows=row_list)
 
 
 def main():

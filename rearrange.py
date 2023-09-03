@@ -1,28 +1,7 @@
-import cv2
-import numpy as np
-import os
-import pandas as pd
-import time
-import connector
-import numpy as np
-import matplotlib.pyplot as plt
-import random
-import requests
-import zipfile
 from config import *
 from connector import Connector
 from fileManager import *
-from matplotlib.patches import Ellipse
-from multiprocessing.dummy import Pool
-from sklearn.decomposition import PCA
-from sklearn.datasets import load_iris
 from text import *
-
-
-def url():
-    pic = Connector.img_original_content(url="https://i.pximg.net/user-profile/img/2023/05/12/23/27/09/24413190_1f5f1ac750918e023b0269c2b235ff51_50.jpg")
-
-    PicWrite(file_name="11", pic=pic)
 
 def main():
     # 导入 csv 库
@@ -48,6 +27,3 @@ def main():
 
 if __name__=="__main__":
     main()
-    # url()
-
-

@@ -32,7 +32,7 @@ def total():
 
     sorted_counter = [[item, count] for item, count in counter.items()]
     sorted_counter.sort(key=lambda item: item[1], reverse=True)
-    CsvWrite(file_name="tags_count.csv", rows=sorted_counter)
+    CsvManager(file_name="tags_count.csv").row_list_write(rows=sorted_counter)
 
     # save counting result
     """with open(OUTPUT_PATH + "tags_count.txt", "w", encoding="UTF-8") as f:

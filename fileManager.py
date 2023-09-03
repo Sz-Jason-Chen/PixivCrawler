@@ -6,7 +6,7 @@ from exceptions import ImageFilesNotFoundError
 
 
 class FileManager:
-    def __init__(self, file_name, output_path=os.getcwd() + "\\output\\"):
+    def __init__(self, file_name, output_path=f"{os.getcwd()}\\output\\"):
         self.file_name = file_name
         self.output_path = output_path
         self.file_path = self.output_path + self.file_name
@@ -62,12 +62,21 @@ class PicWrite(FileManager):
         f.close()
 
 
-class CsvWrite(FileManager):
-    def __init__(self, file_name, rows):
+class CsvManager(FileManager):
+    def __init__(self, file_name):
         super().__init__(file_name)
-        with open(self.output_path + self.file_name, "w", newline='', encoding="utf-16") as file:
-            writer = csv.writer(file)
+
+    def row_list_write(self, rows):
+        with open(self.output_path + self.file_name, "w", encoding="utf-8-sig", newline='') as f:
+            writer = csv.writer(f)
             writer.writerows(rows)
+
+    def dict_list_write(self, dicts):
+        header_list = dicts[0].keys()
+        with open(self.output_path + self.file_name, "w", encoding="utf-8-sig", newline="") as f:
+            writer = csv.DictWriter(f, header_list)
+            writer.writeheader()
+            writer.writerows(dicts)
 
 
 class ZipWriter(FileManager):
