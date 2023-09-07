@@ -34,8 +34,6 @@ class TxtManager(FileManager):
                 file.writelines(lines)
 
 
-
-
 class TXTAppend(FileManager):
     def __init__(self, file_name, line_list):
         super().__init__(file_name)
@@ -63,8 +61,8 @@ class PicWrite(FileManager):
 
 
 class CsvManager(FileManager):
-    def __init__(self, file_name):
-        super().__init__(file_name)
+    def __init__(self, file_name, **kwargs):
+        super().__init__(file_name, **kwargs)
 
     def row_list_write(self, rows):
         with open(self.output_path + self.file_name, "w", encoding="utf-8-sig", newline='') as f:
@@ -79,17 +77,16 @@ class CsvManager(FileManager):
             writer.writerows(dicts)
 
 
-class ZipWriter(FileManager):
-    def __init__(self, file_name, zip):
+class ZipManager(FileManager):
+    def __init__(self, file_name):
         super().__init__(file_name)
+
+    def zip(self, source):
         f = open(self.output_path + self.file_name, "wb")
-        f.write(zip)
+        f.write(source)
         f.close()
 
-
-class UnzipWriter(FileManager):
-    def __init__(self, file_name, unzip_folder):
-        super().__init__(file_name)
+    def unzip(self, unzip_folder):
         with zipfile.ZipFile(self.output_path + self.file_name, 'r') as zip_ref:
             zip_ref.extractall(unzip_folder)
 

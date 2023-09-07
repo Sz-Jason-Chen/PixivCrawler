@@ -29,10 +29,9 @@ def main():
         ugo_fps = ugo_meta_text.get_delay()
         ugo_zip = Connector.ugoira_zip_content(ugo_src)
 
-        ZipWriter(file_name=pid + ".zip", zip=ugo_zip)
-
+        ZipManager(file_name=pid + ".zip").zip(source=ugo_zip)
         unzip_folder = os.getcwd() + "\\output\\" + "unzip_folder"
-        UnzipWriter(file_name=pid + ".zip", unzip_folder=unzip_folder)
+        ZipManager(file_name=pid + ".zip").unzip(unzip_folder=unzip_folder)
 
         Mp4Writer(frame_folder=unzip_folder,
                   file_name=pid + ".mp4",
