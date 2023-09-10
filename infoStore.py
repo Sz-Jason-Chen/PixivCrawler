@@ -10,7 +10,6 @@ from text import IllustText
 from fileManager import TXTAppend
 
 
-
 class InfoStore:
     def __init__(self, file_name):
         """
@@ -118,12 +117,11 @@ class InfoStore:
             TXTAppend(file_name="time.txt", line_list=["%s, %s, %s" % (str(pools), str(step), str(end - start))])
 
 
-
 if __name__ == "__main__":
     """infoStore = InfoStore(file_name="illusts_text_storage_001.txt")
     infoStore.main(maximum=1000000, minimum=0, pools=50, step=10000)"""
 
-    for i in range(1, 112):
+    for i in range(90, 113):
         maximum = i * 1000000
         minimum = (i - 1) * 1000000 + 1
         file_name = ("illusts_text_storage_%s.txt" % f'{i:0>3}')

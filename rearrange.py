@@ -24,6 +24,29 @@ def decisave():
 
     CsvManager(file_name="illusts_text_04.csv").dict_list_write(dicts=data_list)
 
+
+def removerepli():
+    for i in range(1, 81):
+        print(i)
+        # 打开输入文件和输出文件
+        with open(f'E:\program\git project\PixivCrawler\output\illusts_text_storage_{i:0>3}.txt', 'r', encoding="UTF-8") as infile, open(f'E:\program\git project\PixivCrawler\output\sandbox\illusts_text_storage_{i:0>3}.txt', 'w', encoding="UTF-8") as outfile:
+            # 读取第一行
+            previous_line = infile.readline()
+            # 将第一行写入输出文件
+            outfile.write(previous_line)
+
+            # 逐行读取并处理文件内容
+            for current_line in infile:
+                # 如果当前行与前一行不同，就将当前行写入输出文件
+                if current_line != previous_line:
+                    outfile.write(current_line)
+                    previous_line = current_line
+
+        # 关闭文件
+        infile.close()
+        outfile.close()
+
+
 def main():
     for i in range(1, 51):
         data_list = []

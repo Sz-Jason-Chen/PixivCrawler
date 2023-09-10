@@ -273,7 +273,7 @@ class Connector:
     @retry(wait_fixed=1000)
     def illusts_text(pid):
         """
-        Crawl the original text, including the artwork name, author and tags.
+        Crawl the original text, including the artwork name, author and tags.  
 
         The url is: https://www.pixiv.net/ajax/user/{uid}/illusts?ids[]={pid}
         The {uid} is the user ID. It seems like any user ID is available.
