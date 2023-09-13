@@ -26,10 +26,10 @@ def decisave():
 
 
 def removerepli():
-    for i in range(1, 81):
+    for i in range(81, 101):
         print(i)
         # 打开输入文件和输出文件
-        with open(f'E:\program\git project\PixivCrawler\output\illusts_text_storage_{i:0>3}.txt', 'r', encoding="UTF-8") as infile, open(f'E:\program\git project\PixivCrawler\output\sandbox\illusts_text_storage_{i:0>3}.txt', 'w', encoding="UTF-8") as outfile:
+        with open(f'E:\program\git project\PixivCrawler\output\illusts_text_storage_{i:0>3}.txt', 'r', encoding="UTF-8") as infile, open(f'E:\program\git project\PixivCrawler\output\illusts_text_storage\illusts_text_storage_{i:0>3}.txt', 'w', encoding="UTF-8") as outfile:
             # 读取第一行
             previous_line = infile.readline()
             # 将第一行写入输出文件
@@ -48,7 +48,7 @@ def removerepli():
 
 
 def main():
-    for i in range(1, 51):
+    for i in range(1, 101):
         data_list = []
         file_name = ("illusts_text_storage_%s.txt" % f'{i:0>3}')
         with open(OUTPUT_PATH + file_name, "r", encoding="UTF-8") as f:
@@ -66,4 +66,4 @@ def main():
 
 
 if __name__=="__main__":
-    main()
+    removerepli()

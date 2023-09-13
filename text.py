@@ -28,7 +28,7 @@ class IllustText(Text):
 
         :param raw: Illust's text, in String format
         """
-        if '"error"' in raw:
+        if '"error":' in raw:
             super().__init__(raw=raw)
             if len(self.body) == 0:
                 raise ArtworkUnavailableError()
