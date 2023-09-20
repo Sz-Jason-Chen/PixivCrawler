@@ -1,5 +1,4 @@
 import json
-
 import mysql.connector
 from config import *
 from text import IllustText

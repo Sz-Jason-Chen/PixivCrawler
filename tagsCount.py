@@ -14,14 +14,14 @@ def total():
     """
     counter = Counter()
     count = 0
-    for i in range(1, 30):
+    for i in range(1, 101):
         # check file exist
-        file_name = ("illusts_text_storage_%s.txt" % f'{i:0>3}')
-        if not os.path.exists(OUTPUT_PATH + file_name):
+        file_name = f"illusts_text_storage_{i:0>3}.txt"
+        if not os.path.exists(OUTPUT_PATH + "illusts_text_storage\\" + file_name):
             continue
 
         # count line by line
-        with open(OUTPUT_PATH + file_name, "r", encoding="UTF-8") as f:
+        with open(OUTPUT_PATH + "illusts_text_storage\\" + file_name, "r", encoding="UTF-8") as f:
             for line in f.readlines():
                 count += 1
                 line_object = IllustText(raw=line)
@@ -58,11 +58,11 @@ def daily(minimum=1, maximum=10):
     for i in range(minimum, maximum):
         # check file exist
         file_name = ("illusts_text_storage_%s.txt" % f'{i:0>3}')
-        if not os.path.exists(OUTPUT_PATH + file_name):
+        if not os.path.exists(OUTPUT_PATH + "illusts_text_storage\\" + file_name):
             continue
 
         # count line by line
-        with open(OUTPUT_PATH + file_name, "r", encoding="UTF-8") as f:
+        with open(OUTPUT_PATH + "illusts_text_storage\\" + file_name, "r", encoding="UTF-8") as f:
             for line in f.readlines():
                 count += 1
                 text = IllustText(raw=line)
@@ -98,8 +98,8 @@ def daily(minimum=1, maximum=10):
 def main():
 
     start = time.time()
-    # daily(minimum=100, maximum=110)
-    total()
+    daily(minimum=1, maximum=100)
+    # total()
     end = time.time()
     time_consume = end - start
     print(time_consume)
