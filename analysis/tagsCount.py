@@ -1,10 +1,10 @@
 import datetime
 import pandas as pd
 import time
+import os
 from collections import Counter
 from config import *
-from fileManager import *
-from text import IllustText
+from crawler import IllustText, CsvManager
 
 
 def total():

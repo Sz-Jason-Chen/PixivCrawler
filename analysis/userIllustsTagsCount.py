@@ -1,8 +1,8 @@
+from crawler import *
 from collections import Counter
-from fileManager import *
 from multiprocessing.dummy import Pool
-from connector import Connector
-from text import *
+
+
 
 """
 Fetch a user's all illusts' tags, count each tag's occurrence, save in a csv file.

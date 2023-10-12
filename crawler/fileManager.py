@@ -2,7 +2,7 @@ import csv
 import cv2
 import os
 import zipfile
-from exceptions import ImageFilesNotFoundError
+from crawler.exceptions import ImageFilesNotFoundError
 
 
 class FileManager:

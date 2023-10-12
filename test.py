@@ -11,12 +11,12 @@ import requests
 import zipfile
 from config import *
 from connector import Connector
-from fileManager import *
+from crawler import *
 from matplotlib.patches import Ellipse
 from multiprocessing.dummy import Pool
 from sklearn.decomposition import PCA
 from sklearn.datasets import load_iris
-from text import *
+
 
 
 def main():

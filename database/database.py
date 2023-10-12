@@ -1,7 +1,7 @@
 import json
 import mysql.connector
 from config import *
-from text import IllustText
+from crawler import IllustText
 
 def read_data(file_name):
     tuple_list = []

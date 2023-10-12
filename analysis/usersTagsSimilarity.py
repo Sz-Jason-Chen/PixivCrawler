@@ -1,10 +1,10 @@
-from connector import Connector
+import crawler
 import matplotlib.pyplot as plt
 import numpy
-import userIllustsTagsAnalysis
+import userIllustsTagsCount
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
-from text import *
+
 
 """Using dimension reduction algorithms (PCA and t-SNE) to visualize similarity between artists."""
 
@@ -14,8 +14,8 @@ def main(uids):
     user_illust_count = []
     pids = []
     for uid in uids:
-        user_names.append(userIllustsTagsAnalysis.get_user_name(uid=uid))
-        user_pid = userIllustsTagsAnalysis.get_user_illusts(uid)
+        user_names.append(userIllustsTagsCount.get_user_name(uid=uid))
+        user_pid = userIllustsTagsCount.get_user_illusts(uid)
         user_illust_count.append(len(user_pid))
         for pid in user_pid:
             pids.append(pid)
@@ -29,7 +29,7 @@ def main(uids):
     pids_tags = {}
     count = 0
     for pid in pids:
-        tags = IllustText(raw=Connector.illusts_text(pid=pid)).get_tags()
+        tags = crawler.IllustText(raw=crawler.Connector.illusts_text(pid=pid)).get_tags()
         pids_tags[pid] = tags
 
         for tag in tags:

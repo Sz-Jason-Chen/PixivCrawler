@@ -1,6 +1,6 @@
 import datetime
 import json
-from exceptions import *
+import crawler.exceptions
 
 class Text:
     def __init__(self, raw):
@@ -14,7 +14,7 @@ class Text:
             text = eval(string)
         if "error" in text:
             if text["error"]:
-                raise PageReturnError(text["message"])
+                raise crawler.exceptions.PageReturnError(text["message"])
             else:
                 self.body = text["body"]
 
@@ -30,7 +30,7 @@ class IllustText(Text):
         if '"error":' in raw:
             super().__init__(raw=raw)
             if len(self.body) == 0:
-                raise ArtworkUnavailableError()
+                raise crawler.exceptions.ArtworkUnavailableError()
             else:
                 pid = list(self.body.keys())[0]
                 self.info = self.body[pid]
