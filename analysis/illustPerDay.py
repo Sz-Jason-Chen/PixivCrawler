@@ -1,12 +1,28 @@
 import datetime
-import matplotlib.pyplot as plt
-import pandas as pd
 import os
+
+import numpy as np
+import pandas as pd
+
+import matplotlib.pyplot as plt
+from matplotlib.dates import YearLocator, MonthLocator, DateFormatter
+from matplotlib.ticker import MaxNLocator
+
+import statsmodels.api as sm
+from statsmodels.graphics.tsaplots import plot_acf
+
 from config import *
 from crawler import *
 
+from sklearn.preprocessing import MinMaxScaler
 
-def main():
+import tensorflow as tf
+from keras.models import Sequential
+from keras.layers import SimpleRNN, Dense
+
+
+def fetch_data_save_csv():
+    # fetch data and saved in pd dataframe --------------------------------------------------
     # fetch the first date
     with open(f"{OUTPUT_PATH}illusts_text_storage\\illusts_text_storage_001.txt", "r", encoding="UTF-8") as f:
         start = IllustText(raw=f.readline())
@@ -20,8 +36,9 @@ def main():
     counting_total = 0
 
     # file range
-    for file_index in range(1, 21):
-        with open(f"{OUTPUT_PATH}illusts_text_storage\\illusts_text_storage_{file_index:0>3}.txt", "r", encoding="UTF-8") as f:
+    for file_index in range(1, 101):
+        with open(f"{OUTPUT_PATH}illusts_text_storage\\illusts_text_storage_{file_index:0>3}.txt", "r",
+                  encoding="UTF-8") as f:
             # check line by line
             for line in f.readlines():
                 text = IllustText(raw=line)
@@ -32,7 +49,8 @@ def main():
 
                 elif current_date >= counting_date:
                     counting_total += counting_new
-                    daily_df = daily_df._append({"date": counting_date, "new": counting_new, "total": counting_total}, ignore_index=True)
+                    daily_df = daily_df._append({"date": counting_date, "new": counting_new, "total": counting_total},
+                                                ignore_index=True)
 
                     counting_new = 1
                     counting_date = current_date
@@ -42,20 +60,245 @@ def main():
                 elif current_date <= counting_date:
                     daily_df.loc[daily_df["date"] == current_date, ["new", "total"]] += 1
 
-
     print(daily_df)
+    daily_df.to_csv(f"{OUTPUT_PATH}new_and_total_illust_per_day.csv", index=False)
 
-    daily_df.to_csv(f"{OUTPUT_PATH}illustPerDay.csv", index=False)
 
-    plt.figure(figsize=(32, 18))
-    plt.plot(daily_df["date"], daily_df["new"], linestyle='-')
-    plt.title("New illust per day", fontsize=60)
-    plt.xlabel("Date", fontsize=40)
-    plt.ylabel("Count", fontsize=40)
-    plt.xticks(rotation=90, fontsize=30)  # vertical x axis label
-    plt.yticks(fontsize=30)
-    plt.grid(True)
+def new_raw_and_rolling_avg():
+    # -------------------------------------------------------------------------------------
+    daily_df = pd.read_csv(f"{OUTPUT_PATH}new_and_total_illust_per_day.csv")
+    daily_df["date"] = pd.to_datetime(daily_df["date"])
+    daily_df["rolling_avg"] = daily_df["new"].rolling(window=7, center=True).mean()
+
+    # prepare x labels
+    """x_labels = [datetime.datetime(year=2007, month=7, day=1)]
+    for year in range(2008, 2023):
+        x_labels.append(datetime.datetime(year=year, month=1, day=1))
+        x_labels.append(datetime.datetime(year=year, month=7, day=1))
+    x_labels.append(datetime.datetime(year=2023, month=1, day=1))"""
+
+    plt.figure(figsize=(40, 30))  # set the figure size (inch)
+    plt.plot(daily_df["date"], daily_df["new"], label="raw", linestyle='-')
+    plt.plot(daily_df["date"], daily_df["rolling_avg"], label="7-days rolling average", linestyle='-', color="r")
+    plt.title("New illust per day", fontsize=100)  # figure title
+    plt.xlabel("Date", fontsize=70)  # axis label
+    plt.ylabel("Count", fontsize=70)
+    plt.xticks(fontsize=40)  # axis label font size
+    # plt.xticks(x_labels, rotation=90, fontsize=30)  # vertical x-axis label
+    plt.yticks(fontsize=40)
+    # plt.xlim(left=x_labels[0])
+    plt.ylim(bottom=0) # start point of axis
+    plt.tick_params(which="both", pad=20)  # label to both axis distance
+    plt.grid(linewidth=4)  # show grid and set the grid's width
+    plt.legend(fontsize=40, handlelength=4)# present figure legend
+
+    ax = plt.gca()
+    ax.xaxis.set_major_locator(YearLocator(base=1))  # 1 year scale
+    ax.xaxis.set_major_formatter(DateFormatter("%Y"))  # set x-axis labels' format, only present year
+    # ax.xaxis.set_major_locator(MaxNLocator(nbins=40))
+    ax.yaxis.set_major_locator(MaxNLocator(nbins=20))  # axis label density
+    # set the borderlines' width
+    for spine in ax.spines.values():
+        spine.set_linewidth(8)
+
     plt.show()
 
+
+def new_weekday():
+    daily_df = pd.read_csv(f"{OUTPUT_PATH}new_and_total_illust_per_day.csv")
+    daily_df["date"] = pd.to_datetime(daily_df["date"])
+    daily_df["weekday"] = daily_df["date"].dt.day_name()
+    weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+
+    plt.figure(figsize=(40, 30))  # set the figure size (inch)
+    for weekday in weekdays:
+        weekday_rows = daily_df[daily_df["weekday"] == weekday]
+        plt.plot(weekday_rows["date"], weekday_rows["new"], label=weekday, linestyle='-', linewidth=2)
+    plt.title("New illust per day classified by weekdays", fontsize=100)  # figure title
+    plt.xlabel("Date", fontsize=70)  # axis label
+    plt.ylabel("Count", fontsize=70)
+    plt.xticks(fontsize=40)  # axis label font size
+    plt.yticks(fontsize=40)
+    plt.ylim(bottom=0)  # start point of axis
+    plt.tick_params(which="both", pad=20)  # label to both axis distance
+    plt.grid(linewidth=4)  # show grid and set the grid's width
+    plt.legend(fontsize=40, handlelength=4) # present figure legend
+
+    ax = plt.gca()
+    ax.xaxis.set_major_locator(YearLocator(base=1))  # 1 year scale
+    ax.xaxis.set_major_formatter(DateFormatter("%Y"))  # set x-axis labels' format, only present year
+    ax.yaxis.set_major_locator(MaxNLocator(nbins=20))  # axis label density
+    # set the borderlines' width
+    for spine in ax.spines.values():
+        spine.set_linewidth(8)
+
+    plt.show()
+
+
+def sesonal_decomposition():
+    daily_df = pd.read_csv(f"{OUTPUT_PATH}new_and_total_illust_per_day.csv")
+    daily_df["date"] = pd.to_datetime(daily_df["date"])
+    # daily_df = daily_df[:350]
+
+    result = sm.tsa.seasonal_decompose(daily_df["new"], period=365)  # 这里设置周期为7天，表示一周
+
+    trend = result.trend
+    seasonal = result.seasonal
+    residual = result.resid
+
+    plt.figure(figsize=(12, 8))
+
+    # 绘制原始数据
+    plt.subplot(411)
+    plt.plot(daily_df["new"], label='Original Data')
+    plt.legend()
+
+    # 绘制趋势
+    plt.subplot(412)
+    plt.plot(trend, label='Trend')
+    plt.legend()
+
+    # 绘制季节性
+    plt.subplot(413)
+    plt.plot(seasonal, label='Seasonal')
+    plt.legend()
+
+    # 绘制残差
+    plt.subplot(414)
+    plt.plot(residual, label='Residual')
+    plt.legend()
+
+    # 显示图形
+    plt.tight_layout()
+    plt.show()
+
+
+def autocorrelation():
+    daily_df = pd.read_csv(f"{OUTPUT_PATH}new_and_total_illust_per_day.csv")
+    daily_df["date"] = pd.to_datetime(daily_df["date"])
+    daily_df = daily_df[2000:3000]
+    daily_df.set_index("date", inplace=True)
+    print(daily_df)
+
+    # acf = daily_df["new"].autocorr(lag=1)  # lag表示滞后期数
+    # print(f'autocorrelation coefficient: {acf}')
+
+    plot_acf(daily_df["new"], lags=100)  # 你可以自定义lags的数量
+    plt.show()
+
+
+
+def RNN():
+    # read data =====================================================================================
+    daily_df = pd.read_csv(f"{OUTPUT_PATH}new_and_total_illust_per_day.csv")
+    daily_df["date"] = pd.to_datetime(daily_df["date"])
+
+    # data formatting ===============================================================================
+    # data scaling or normalizing
+    scaler = MinMaxScaler()
+    daily_df["scaled_value"] = scaler.fit_transform(daily_df[["new"]])
+    # print(daily_df["scaled_value"])
+    # print(daily_df[["scaled_value"]])
+
+    # The model aims at predicting new illusts by {previous days} data
+    # so the {previous days} data is given sequences
+    # the present day data is targets
+    def create_sequence(data, sequence_length):
+        sequences = []
+        targets = []
+        for i in range(len(data) - sequence_length):
+            seq = data['scaled_value'].values[i:i + sequence_length]
+            target = data['scaled_value'].values[i + sequence_length]
+
+            sequences.append(seq)
+            targets.append(target)
+        # print(sequences)
+        return np.array(sequences, dtype=object), np.array(targets, dtype=object)
+        # change: dtype=object
+
+    sequence_length = 7  # previous 7 days
+    sequences, targets = create_sequence(daily_df, sequence_length)
+
+    # divide data into train part and test part
+    train_size = int(0.8 * len(sequences))
+    train_sequences = sequences[:train_size]
+    train_targets = targets[:train_size]
+
+    train_sequences = tf.convert_to_tensor(train_sequences, dtype=tf.float32)
+    train_targets = tf.convert_to_tensor(train_targets, dtype=tf.float32)
+
+    test_sequences = sequences[train_size:]
+    test_targets = targets[train_size:]
+
+    test_sequences = tf.convert_to_tensor(test_sequences, dtype=tf.float32)
+    test_targets = tf.convert_to_tensor(test_targets, dtype=tf.float32)
+
+    print(train_sequences)
+    print(train_targets)
+    print(test_sequences)
+    print(test_targets)
+
+    # modelling ==================================================================================
+    # build RNN model
+    model = Sequential()
+    model.add(SimpleRNN(units=64, activation='tanh', input_shape=(sequence_length, 1)))
+    model.add(Dense(1))
+
+    # compile and train model
+    model.compile(optimizer='adam', loss='mean_squared_error')
+    history = model.fit(train_sequences, train_targets, epochs=20, batch_size=32)
+
+    # prediction and evaluation
+    predicted = model.predict(test_sequences)
+    # predicted_values = scaler.inverse_transform(predicted)
+    predicted_values = predicted
+    print(predicted_values)
+    print(type(predicted_values))
+
+    true_values = test_targets.numpy()
+    true_values = np.array(true_values).reshape(-1, 1)
+    print(true_values)
+
+
+    from sklearn.metrics import mean_squared_error
+    mse = mean_squared_error(true_values, predicted_values)
+    print("Mean Squared Error:", mse)
+
+    # visualization ===============================================================================
+    loss = history.history['loss']
+
+    plt.plot(loss, label='Training Loss')
+    plt.title('Training Loss')
+    plt.legend()
+    plt.show()
+
+
+    plt.figure(figsize=(40, 30))  # set the figure size (inch)
+    plt.plot(true_values, label='True Values')
+    plt.plot(predicted_values, label='Predicted Values')
+    plt.title("Prediction vs real", fontsize=100)  # figure title
+    plt.xlabel("Date point", fontsize=70)  # axis label
+    plt.ylabel("Count (normalized)", fontsize=70)
+    plt.xticks(fontsize=40)  # axis label font size
+    plt.yticks(fontsize=40)
+    plt.xlim(left=0)
+    plt.ylim(bottom=0)  # start point of axis
+    plt.tick_params(which="both", pad=20)  # label to both axis distance
+    plt.grid(linewidth=4)  # show grid and set the grid's width
+    plt.legend(fontsize=40, handlelength=4)  # present figure legend
+
+    ax = plt.gca()
+    # set the borderlines' width
+    for spine in ax.spines.values():
+        spine.set_linewidth(8)
+
+    plt.show()
+
+
 if __name__ == "__main__":
-    main()
+    # new_raw_and_rolling_avg()
+    # new_weekday()
+    # sesonal_decomposition()
+    # autocorrelation()
+    RNN()
+

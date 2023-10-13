@@ -1,26 +1,39 @@
 import datetime
-import matplotlib.pyplot as plt
-import pandas as pd
 import os
 from config import *
 from crawler import *
 
-with open(f"{OUTPUT_PATH}illusts_text_storage\\illusts_text_storage_020.txt", "r", encoding="UTF-8") as f:
-    start = IllustText(raw=f.readline())
-    start_date = start.get_create_date().date()
-    print(start_date)
+import numpy as np
+import pandas as pd
 
-previous_date = start_date
+import matplotlib.pyplot as plt
+from matplotlib.colors import Normalize
+from matplotlib.cm import ScalarMappable
 
-with open(f"{OUTPUT_PATH}illusts_text_storage\\illusts_text_storage_020.txt", "r", encoding="UTF-8") as f:
-    for line in f.readlines():
-        text = IllustText(raw=line)
-        current_date = text.get_create_date().date()
+import statsmodels.api as sm
+from statsmodels.graphics.tsaplots import plot_acf
 
-        if current_date == previous_date:
-            pass
-        elif current_date >= previous_date:
-            print(current_date, text.get_id(), text.get_create_date())
-            previous_date = current_date
-        elif current_date <= previous_date:
-            pass
+from sklearn.preprocessing import MinMaxScaler
+
+import tensorflow as tf
+from keras.models import Sequential
+from keras.layers import SimpleRNN, Dense
+
+# 创建一个标量（标量可以是任何数字，这里以整数1为例）
+scalar = 1
+
+# 创建一个一维张量
+tensor_1d = tf.constant([2, 3, 4])
+
+
+
+# 打印堆叠后的张量
+print(tensor_1d)
+
+
+
+
+
+
+
+
