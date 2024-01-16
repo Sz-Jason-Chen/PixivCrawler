@@ -24,8 +24,8 @@ class InfoStore:
 
         # check file existence
         # if yes then read last line to get last pid
-        if os.path.exists(OUTPUT_PATH + self.file_name):
-            with open(OUTPUT_PATH + self.file_name, 'r', encoding="UTF-8") as file:
+        if os.path.exists(os.path.join(OUTPUT_PATH, self.file_name)):
+            with open(os.path.join(OUTPUT_PATH, self.file_name), 'r', encoding="UTF-8") as file:
                 last_line = None
                 current_line = None
                 for line in file:
@@ -37,7 +37,7 @@ class InfoStore:
                 self.last = int(eval(last_line)["id"])
         # if not then create
         else:
-            with open(OUTPUT_PATH + self.file_name, 'w') as f:
+            with open(os.path.join(OUTPUT_PATH, self.file_name), 'w') as f:
                 pass
 
     """def crawl(self, pid):
@@ -122,10 +122,10 @@ if __name__ == "__main__":
     """infoStore = InfoStore(file_name="illusts_text_storage_001.txt")
     infoStore.main(maximum=1000000, minimum=0, pools=50, step=10000)"""
 
-    for i in range(110, 113):
+    for i in range(110, 115):
         maximum = i * 1000000
         minimum = (i - 1) * 1000000 + 1
         file_name = ("illusts_text_storage_%s.txt" % f'{i:0>3}')
         print(file_name)
         infoStore = InfoStore(file_name=file_name)
-        infoStore.main(maximum=maximum, minimum=minimum, pools=100, step=50000)
+        infoStore.main(maximum=maximum, minimum=minimum, pools=100, step=10000)

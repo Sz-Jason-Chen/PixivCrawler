@@ -1,6 +1,7 @@
 from connector import Connector
 from fileManager import *
 from text import *
+from config import ROOT_PATH, OUTPUT_PATH
 
 
 def main():
@@ -30,7 +31,7 @@ def main():
         ugo_zip = Connector.ugoira_zip_content(ugo_src)
 
         ZipManager(file_name=pid + ".zip").zip(source=ugo_zip)
-        unzip_folder = os.getcwd() + "\\output\\" + "unzip_folder"
+        unzip_folder = os.path.join(OUTPUT_PATH, "unzip_folder")
         ZipManager(file_name=pid + ".zip").unzip(unzip_folder=unzip_folder)
 
         Mp4Writer(frame_folder=unzip_folder,

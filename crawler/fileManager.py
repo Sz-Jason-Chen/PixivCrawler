@@ -3,13 +3,14 @@ import cv2
 import os
 import zipfile
 from crawler.exceptions import ImageFilesNotFoundError
+from config import OUTPUT_PATH
 
 
 class FileManager:
-    def __init__(self, file_name, output_path=f"{os.getcwd()}\\output\\"):
+    def __init__(self, file_name, output_path=OUTPUT_PATH):
         self.file_name = file_name
         self.output_path = output_path
-        self.file_path = self.output_path + self.file_name
+        self.file_path = os.path.join(self.output_path, self.file_name)
         if not os.path.exists(self.output_path):
             os.mkdir(self.output_path)
 
@@ -37,6 +38,7 @@ class TxtManager(FileManager):
 class TXTAppend(FileManager):
     def __init__(self, file_name, line_list):
         super().__init__(file_name)
+        print(self.file_path)
         with open(self.file_path, "a+", encoding="UTF-8") as file:
             for text in line_list:
                 file.write(str(text) + "\n")
@@ -65,13 +67,13 @@ class CsvManager(FileManager):
         super().__init__(file_name, **kwargs)
 
     def row_list_write(self, rows):
-        with open(self.output_path + self.file_name, "w", encoding="utf-8-sig", newline='') as f:
+        with open(os.path.join(self.output_path, self.file_name), "w", encoding="utf-8-sig", newline='') as f:
             writer = csv.writer(f)
             writer.writerows(rows)
 
     def dict_list_write(self, dicts):
         header_list = dicts[0].keys()
-        with open(self.output_path + self.file_name, "w", encoding="utf-8-sig", newline="") as f:
+        with open(os.path.join(self.output_path, self.file_name), "w", encoding="utf-8-sig", newline="") as f:
             writer = csv.DictWriter(f, header_list)
             writer.writeheader()
             writer.writerows(dicts)
@@ -82,12 +84,12 @@ class ZipManager(FileManager):
         super().__init__(file_name)
 
     def zip(self, source):
-        f = open(self.output_path + self.file_name, "wb")
+        f = open(os.path.join(self.output_path, self.file_name), "wb")
         f.write(source)
         f.close()
 
     def unzip(self, unzip_folder):
-        with zipfile.ZipFile(self.output_path + self.file_name, 'r') as zip_ref:
+        with zipfile.ZipFile(os.path.join(self.output_path, self.file_name), 'r') as zip_ref:
             zip_ref.extractall(unzip_folder)
 
 
@@ -103,7 +105,7 @@ class Mp4Writer(FileManager):
 
         # create video encoder
         fourcc = cv2.VideoWriter_fourcc(*'mp4v')
-        video = cv2.VideoWriter(self.output_path + self.file_name, fourcc, fps, (width, height))
+        video = cv2.VideoWriter(os.path.join(self.output_path, self.file_name), fourcc, fps, (width, height))
 
         # write frame by frame
         for image_file in image_files:

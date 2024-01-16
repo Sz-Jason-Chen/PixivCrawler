@@ -1,3 +1,4 @@
+import os
 import requests
 
 
@@ -18,3 +19,8 @@ def web_test():
 if __name__ == "__main__":
     isAvailable = web_test()
     print(isAvailable)
+
+    from pathlib import Path
+    FILE = Path(__file__).resolve()
+    project_root_dir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
+    print(project_root_dir)

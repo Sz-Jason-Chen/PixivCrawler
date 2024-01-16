@@ -4,9 +4,6 @@ from fileManager import *
 from text import *
 
 def decisave():
-    # 导入 csv 库
-    import csv
-
     data_list = []
     for i in range(31, 41):
         file_name = ("illusts_text_storage_%s.txt" % f'{i:0>3}')

@@ -3,6 +3,12 @@
 # PATH: Program output storage path
 # USER_AGENT_POOL: Crawler agent random pool
 
-STATIC_PATH = "E:\\program\\git project\\PixivCrawler\\web\\static\\"
-OUTPUT_PATH = "E:\\program\\git project\\PixivCrawler\\output\\"
+import os
 
+ROOT_PATH = os.path.abspath(os.path.dirname(__file__))
+STATIC_PATH = os.path.join(ROOT_PATH, 'web', 'static')
+OUTPUT_PATH = os.path.join(ROOT_PATH, 'output')
+
+if __name__ == '__main__':
+    print(ROOT_PATH)
+    print(OUTPUT_PATH)

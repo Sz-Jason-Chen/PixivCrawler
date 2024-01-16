@@ -11,8 +11,6 @@ from config import *
 from crawler import *
 
 
-
-
 def fetch_data_save_csv():
     """
     DO NOT RUN THIS FUNCTION without original txt files!
